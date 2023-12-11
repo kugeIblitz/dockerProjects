@@ -1,0 +1,23 @@
+version: '3'
+services:
+  web:
+    image: python:3.8-slim
+    volumes:
+      - ./app:/app
+    ports:
+      - "5000:5000"
+    depends_on:
+      - db
+    environment:
+      - FLASK_APP=app.py
+      - FLASK_RUN_HOST=0.0.0.0
+    stdin_open: true
+    tty: true
+    command: >
+      bash -c "pip install Flask &&
+      python /app/app.py"
+  db:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: ""
+      MYSQL_DATABASE: mydb
